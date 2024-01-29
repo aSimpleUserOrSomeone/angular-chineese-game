@@ -1,1 +1,62 @@
 /* You can add global styles to this file, and also import other style files */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+:root {
+  --black: #231942;
+  --white: #eee;
+  --primary: #5e548e;
+  --primary2: #9f86c0;
+  --primary3: #be95c4;
+  --primary4: #e0b1cb;
+  --contrast: #ffffb5;
+}
+
+html {
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+}
+
+body {
+  --d: 2250px;
+  --angle: 60deg;
+  --w: 100%;
+
+  position: relative;
+  z-index: 0;
+  background: #131313;
+
+  min-height: 100dvh;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+body::before {
+  content: "";
+  height: 100%;
+  left: 0;
+  width: var(--w);
+  position: absolute;
+  z-index: -1;
+
+  background: repeating-linear-gradient(
+    var(--angle),
+    var(--primary2),
+    var(--primary),
+    var(--black),
+    var(--primary),
+    var(--primary2) var(--d)
+  );
+  background-size: calc(var(--d) / sin(var(--angle))) 100%;
+  animation: AnimationName 11s linear infinite reverse;
+}
+
+@keyframes AnimationName {
+  0% {
+    background-position: calc(var(--d) / sin(var(--angle))) 0;
+  }
+}

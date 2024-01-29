@@ -1,0 +1,282 @@
+[
+    {
+        "color": "red",
+        "leftPercent": "1%",
+        "topPercent": "37%"
+    },
+    {
+        "color": "",
+        "leftPercent": "10%",
+        "topPercent": "37%"
+    },
+    {
+        "color": "",
+        "leftPercent": "19%",
+        "topPercent": "37%"
+    },
+    {
+        "color": "",
+        "leftPercent": "28%",
+        "topPercent": "37%"
+    },
+    {
+        "color": "",
+        "leftPercent": "37%",
+        "topPercent": "37%"
+    },
+    {
+        "color": "",
+        "leftPercent": "37%",
+        "topPercent": "28%"
+    },
+    {
+        "color": "",
+        "leftPercent": "37%",
+        "topPercent": "19%"
+    },
+    {
+        "color": "",
+        "leftPercent": "37%",
+        "topPercent": "10%"
+    },
+    {
+        "color": "",
+        "leftPercent": "37%",
+        "topPercent": "1%"
+    },
+    {
+        "color": "",
+        "leftPercent": "46%",
+        "topPercent": "1%"
+    },
+    {
+        "color": "yellow",
+        "leftPercent": "55%",
+        "topPercent": "1%"
+    },
+    {
+        "color": "",
+        "leftPercent": "55%",
+        "topPercent": "10%"
+    },
+    {
+        "color": "",
+        "leftPercent": "55%",
+        "topPercent": "19%"
+    },
+    {
+        "color": "",
+        "leftPercent": "55%",
+        "topPercent": "28%"
+    },
+    {
+        "color": "",
+        "leftPercent": "55%",
+        "topPercent": "37%"
+    },
+    {
+        "color": "",
+        "leftPercent": "64%",
+        "topPercent": "37%"
+    },
+    {
+        "color": "",
+        "leftPercent": "73%",
+        "topPercent": "37%"
+    },
+    {
+        "color": "",
+        "leftPercent": "82%",
+        "topPercent": "37%"
+    },
+    {
+        "color": "",
+        "leftPercent": "91%",
+        "topPercent": "37%"
+    },
+    {
+        "color": "",
+        "leftPercent": "91%",
+        "topPercent": "46%"
+    },
+    {
+        "color": "blue",
+        "leftPercent": "91%",
+        "topPercent": "55%"
+    },
+    {
+        "color": "",
+        "leftPercent": "82%",
+        "topPercent": "55%"
+    },
+    {
+        "color": "",
+        "leftPercent": "73%",
+        "topPercent": "55%"
+    },
+    {
+        "color": "",
+        "leftPercent": "64%",
+        "topPercent": "55%"
+    },
+    {
+        "color": "",
+        "leftPercent": "55%",
+        "topPercent": "55%"
+    },
+    {
+        "color": "",
+        "leftPercent": "55%",
+        "topPercent": "64%"
+    },
+    {
+        "color": "",
+        "leftPercent": "55%",
+        "topPercent": "73%"
+    },
+    {
+        "color": "",
+        "leftPercent": "55%",
+        "topPercent": "82%"
+    },
+    {
+        "color": "",
+        "leftPercent": "55%",
+        "topPercent": "91%"
+    },
+    {
+        "color": "",
+        "leftPercent": "46%",
+        "topPercent": "91%"
+    },
+    {
+        "color": "green",
+        "leftPercent": "37%",
+        "topPercent": "91%"
+    },
+    {
+        "color": "",
+        "leftPercent": "37%",
+        "topPercent": "82%"
+    },
+    {
+        "color": "",
+        "leftPercent": "37%",
+        "topPercent": "73%"
+    },
+    {
+        "color": "",
+        "leftPercent": "37%",
+        "topPercent": "64%"
+    },
+    {
+        "color": "",
+        "leftPercent": "37%",
+        "topPercent": "55%"
+    },
+    {
+        "color": "",
+        "leftPercent": "28%",
+        "topPercent": "55%"
+    },
+    {
+        "color": "",
+        "leftPercent": "19%",
+        "topPercent": "55%"
+    },
+    {
+        "color": "",
+        "leftPercent": "10%",
+        "topPercent": "55%"
+    },
+    {
+        "color": "",
+        "leftPercent": "1%",
+        "topPercent": "55%"
+    },
+    {
+        "color": "",
+        "leftPercent": "1%",
+        "topPercent": "46%"
+    },
+    {
+        "color": "red",
+        "leftPercent": "10%",
+        "topPercent": "46%"
+    },
+    {
+        "color": "red",
+        "leftPercent": "19%",
+        "topPercent": "46%"
+    },
+    {
+        "color": "red",
+        "leftPercent": "28%",
+        "topPercent": "46%"
+    },
+    {
+        "color": "red",
+        "leftPercent": "37%",
+        "topPercent": "46%"
+    },
+    {
+        "color": "yellow",
+        "leftPercent": "46%",
+        "topPercent": "10%"
+    },
+    {
+        "color": "yellow",
+        "leftPercent": "46%",
+        "topPercent": "19%"
+    },
+    {
+        "color": "yellow",
+        "leftPercent": "46%",
+        "topPercent": "28%"
+    },
+    {
+        "color": "yellow",
+        "leftPercent": "46%",
+        "topPercent": "37%"
+    },
+    {
+        "color": "blue",
+        "leftPercent": "82%",
+        "topPercent": "46%"
+    },
+    {
+        "color": "blue",
+        "leftPercent": "73%",
+        "topPercent": "46%"
+    },
+    {
+        "color": "blue",
+        "leftPercent": "64%",
+        "topPercent": "46%"
+    },
+    {
+        "color": "blue",
+        "leftPercent": "55%",
+        "topPercent": "46%"
+    },
+    {
+        "color": "green",
+        "leftPercent": "46%",
+        "topPercent": "82%"
+    },
+    {
+        "color": "green",
+        "leftPercent": "46%",
+        "topPercent": "73%"
+    },
+    {
+        "color": "green",
+        "leftPercent": "46%",
+        "topPercent": "64%"
+    },
+    {
+        "color": "green",
+        "leftPercent": "46%",
+        "topPercent": "55%"
+    }
+]

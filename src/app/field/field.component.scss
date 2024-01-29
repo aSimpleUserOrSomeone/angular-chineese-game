@@ -1,0 +1,15 @@
+.field {
+  border-radius: 50%;
+  width: 8%;
+  aspect-ratio: 1;
+  border: 0.2em solid var(--black);
+  box-shadow: inset 0 0 0.5em -1px var(--white);
+
+  position: absolute;
+  outline: solid transparent 0.15em;
+  transition: outline-color 0.2s;
+}
+
+.field:hover {
+  outline-color: var(--white);
+}
