@@ -1,13 +1,14 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { FieldComponent } from './field/field.component';
+import { PawnComponent } from './pawn/pawn.component';
 import _positions from '../assets/positions.json';
 import { NgFor } from '@angular/common';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, FieldComponent, NgFor],
+  imports: [RouterOutlet, FieldComponent, PawnComponent, NgFor],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })

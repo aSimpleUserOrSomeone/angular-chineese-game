@@ -278,5 +278,85 @@
         "color": "green",
         "leftPercent": "46%",
         "topPercent": "55%"
+    },
+    {
+        "color": "red",
+        "leftPercent": "1%",
+        "topPercent": "1%"
+    },
+    {
+        "color": "red",
+        "leftPercent": "10%",
+        "topPercent": "1%"
+    },
+    {
+        "color": "red",
+        "leftPercent": "1%",
+        "topPercent": "10%"
+    },
+    {
+        "color": "red",
+        "leftPercent": "10%",
+        "topPercent": "10%"
+    },
+    {
+        "color": "yellow",
+        "leftPercent": "82%",
+        "topPercent": "1%"
+    },
+    {
+        "color": "yellow",
+        "leftPercent": "91%",
+        "topPercent": "1%"
+    },
+    {
+        "color": "yellow",
+        "leftPercent": "82%",
+        "topPercent": "10%"
+    },
+    {
+        "color": "yellow",
+        "leftPercent": "91%",
+        "topPercent": "10%"
+    },
+    {
+        "color": "blue",
+        "leftPercent": "82%",
+        "topPercent": "82%"
+    },
+    {
+        "color": "blue",
+        "leftPercent": "91%",
+        "topPercent": "82%"
+    },
+    {
+        "color": "blue",
+        "leftPercent": "82%",
+        "topPercent": "91%"
+    },
+    {
+        "color": "blue",
+        "leftPercent": "91%",
+        "topPercent": "91%"
+    },
+    {
+        "color": "green",
+        "leftPercent": "1%",
+        "topPercent": "82%"
+    },
+    {
+        "color": "green",
+        "leftPercent": "10%",
+        "topPercent": "82%"
+    },
+    {
+        "color": "green",
+        "leftPercent": "1%",
+        "topPercent": "91%"
+    },
+    {
+        "color": "green",
+        "leftPercent": "10%",
+        "topPercent": "91%"
     }
 ]

@@ -12,6 +12,7 @@ interface fieldStyle {
   top: any;
   'box-shadow'?: any;
   'outline-color'?: any;
+  cursor?: any;
 }
 
 @Component({
@@ -39,6 +40,7 @@ export class FieldComponent {
       newStyle['outline-color'] = 'var(--white)';
     } else if (this.hasInteraction) {
       newStyle['outline-color'] = 'var(--primary2)';
+      newStyle['cursor'] = 'pointer';
     }
 
     return newStyle;
