@@ -4,7 +4,7 @@
     <app-field *ngFor="let data of positions" [data]="data">
     </app-field>
     <!-- <app-pawn></app-pawn> -->
-    <div id="dice"></div>
+    <div id="dice" (click)="handleDice()"></div>
   </div>
 </main>
 
