@@ -1,7 +1,7 @@
 <main>
   <div id="playing-board">
     <!-- Here inside components as playing fields -->
-    <app-field *ngFor="let data of positions" [data]="data">
+    <app-field *ngFor="let position of positions" [data]="position">
     </app-field>
     <!-- <app-pawn></app-pawn> -->
     <div id="dice" (click)="handleDice()"></div>

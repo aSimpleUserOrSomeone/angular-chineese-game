@@ -2,13 +2,15 @@ import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { NgFor } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { FieldComponent } from './components/field/field.component';
 import { PawnComponent } from './components/pawn/pawn.component';
 import { WebRequestsService } from './services/web-requests.service';
 
 import _positions from '../assets/positions.json';
-import { gameState } from './models/interfaces';
+import { gameState, fieldData } from './models/interfaces';
 
 @Component({
   selector: 'app-root',
@@ -19,6 +21,8 @@ import { gameState } from './models/interfaces';
     PawnComponent,
     NgFor,
     HttpClientModule,
+    BrowserModule,
+    BrowserAnimationsModule,
   ],
   providers: [WebRequestsService],
   templateUrl: './app.component.html',
@@ -27,14 +31,11 @@ import { gameState } from './models/interfaces';
 export class AppComponent {
   title = 'chineese-game';
   passedValue = 'passed text';
-  positions: any;
+  positions: fieldData[] = _positions;
 
   constructor(private _webRequestsService: WebRequestsService) {}
 
-  ngOnInit() {
-    this.positions = _positions;
-    console.log(this.positions);
-  }
+  ngOnInit() {}
 
   handleDice() {
     this._webRequestsService
@@ -43,13 +44,14 @@ export class AppComponent {
   }
 
   handleGameState(gameState: gameState[]) {
-    for (let field of this.positions) {
-      field.pawn = null;
-    }
+    this.positions = this.positions.map((field) => ({
+      ...field,
+      pawn: undefined,
+    }));
 
-    for (let pawn of gameState[Math.floor(Math.random() * 2)].pawns) {
+    let ran = Math.floor(Math.random() * 2);
+    for (let pawn of gameState[ran].pawns) {
       this.positions[pawn.pos].pawn = pawn.color;
     }
-    console.log(this.positions);
   }
 }

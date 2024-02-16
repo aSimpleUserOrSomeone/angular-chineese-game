@@ -1,5 +1,12 @@
 import { NgStyle, NgIf } from '@angular/common';
 import { Component, Input, SimpleChanges } from '@angular/core';
+import {
+  trigger,
+  state,
+  style,
+  animate,
+  transition,
+} from '@angular/animations';
 import { fieldData } from '../../models/interfaces';
 
 interface fieldStyle {
@@ -14,12 +21,13 @@ interface fieldStyle {
   selector: 'app-field',
   standalone: true,
   imports: [NgStyle, NgIf],
+  animations: [],
   templateUrl: './field.component.html',
   styleUrl: './field.component.scss',
 })
 export class FieldComponent {
   @Input() data!: fieldData;
-  @Input() hasHover: boolean = false;
+  hasHover: boolean = false;
   hasPawn: boolean = false;
   myStyle?: fieldStyle;
 
@@ -30,11 +38,8 @@ export class FieldComponent {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    console.log('changes');
-
-    if (changes['data']) {
-      this.updateStyle();
-    }
+    this.updateStyle();
+    console.log(changes);
   }
 
   updateStyle() {
@@ -48,9 +53,18 @@ export class FieldComponent {
     if (this.hasHover && this.data.pawn) {
       this.myStyle['outline-color'] = 'var(--white)';
       this.myStyle['cursor'] = 'pointer';
-    }
-    if (this.data.pawn) {
+    } else if (this.data.pawn) {
       this.myStyle['outline-color'] = 'var(--primary2)';
     }
+  }
+
+  enterHover() {
+    this.hasHover = true;
+    this.updateStyle();
+  }
+
+  leaveHover() {
+    this.hasHover = false;
+    this.updateStyle();
   }
 }
