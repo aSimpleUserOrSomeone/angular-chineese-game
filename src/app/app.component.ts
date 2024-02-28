@@ -6,7 +6,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { FieldComponent } from './components/field/field.component';
-import { PawnComponent } from './components/pawn/pawn.component';
 import { WebRequestsService } from './services/web-requests.service';
 
 import _positions from '../assets/positions.json';
@@ -18,11 +17,10 @@ import { gameState, fieldData } from './models/interfaces';
   imports: [
     RouterOutlet,
     FieldComponent,
-    PawnComponent,
     NgFor,
     HttpClientModule,
-    BrowserModule,
-    BrowserAnimationsModule,
+    // BrowserModule,
+    // BrowserAnimationsModule,
   ],
   providers: [WebRequestsService],
   templateUrl: './app.component.html',
@@ -32,6 +30,8 @@ export class AppComponent {
   title = 'chineese-game';
   passedValue = 'passed text';
   positions: fieldData[] = _positions;
+  lastIndexHovered: number = -1;
+  gameState?: gameState;
 
   constructor(private _webRequestsService: WebRequestsService) {}
 
@@ -44,14 +44,42 @@ export class AppComponent {
   }
 
   handleGameState(gameState: gameState[]) {
-    this.positions = this.positions.map((field) => ({
-      ...field,
-      pawn: undefined,
+    this.positions = this.positions.map((pos) => ({
+      ...pos,
+      pawnColor: undefined,
     }));
 
     let ran = Math.floor(Math.random() * 2);
+    this.gameState = gameState[ran];
     for (let pawn of gameState[ran].pawns) {
-      this.positions[pawn.pos].pawn = pawn.color;
+      this.positions[pawn.pos].pawnColor = pawn.color;
     }
+    // console.log(this.positions.map((pos) => pos.pawnColor));
+  }
+
+  handleFieldValidHover(fieldIndex: number) {
+    if (fieldIndex === this.lastIndexHovered) return;
+    this.lastIndexHovered = fieldIndex;
+
+    
+    if (fieldIndex === -1) {
+      this.positions = this.positions.map((pos) => ({
+        ...pos,
+        isDestination: false,
+      }));
+      return;
+    }
+    console.log(this.gameState);
+
+    if (this.gameState?.action !== 'move' || !this.gameState.diceValue) return;
+    console.log("handled2");
+
+    let correctDestination = fieldIndex + this.gameState.diceValue;
+    if (correctDestination >= 40) correctDestination -= 40;
+
+    this.positions = this.positions.map((pos, i) => {
+      if (i === correctDestination) return { ...pos, isDestination: true };
+      return { ...pos };
+    });
   }
 }

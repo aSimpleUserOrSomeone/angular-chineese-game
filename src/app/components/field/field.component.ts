@@ -1,12 +1,19 @@
 import { NgStyle, NgIf } from '@angular/common';
-import { Component, Input, SimpleChanges } from '@angular/core';
 import {
-  trigger,
-  state,
-  style,
-  animate,
-  transition,
-} from '@angular/animations';
+  Component,
+  Input,
+  Output,
+  SimpleChanges,
+  EventEmitter,
+  input,
+} from '@angular/core';
+// import {
+//   trigger,
+//   state,
+//   style,
+//   animate,
+//   transition,
+// } from '@angular/animations';
 import { fieldData } from '../../models/interfaces';
 
 interface fieldStyle {
@@ -15,6 +22,10 @@ interface fieldStyle {
   'box-shadow'?: any;
   'outline-color'?: any;
   cursor?: any;
+}
+
+interface pawnStyle {
+  'background-color'?: string;
 }
 
 @Component({
@@ -27,9 +38,16 @@ interface fieldStyle {
 })
 export class FieldComponent {
   @Input() data!: fieldData;
+  @Input() fieldIndex!: number;
+  @Input() gameAction?: string;
+  @Input() whoseAction?: string;
+  @Input() playerColor?: string;
+  @Output() onValidHover = new EventEmitter<number>();
+
   hasHover: boolean = false;
   hasPawn: boolean = false;
-  myStyle?: fieldStyle;
+  fieldStyle?: fieldStyle;
+  pawnStyle: pawnStyle = {};
 
   constructor() {}
 
@@ -38,33 +56,60 @@ export class FieldComponent {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    this.updateStyle();
-    console.log(changes);
+    if (changes['data']) {
+      this.updateStyle();
+      if (this.data.pawnColor) this.hasPawn = true;
+    }
   }
 
   updateStyle() {
-    this.myStyle = {
+    this.fieldStyle = {
       left: this.data.leftPercent,
       top: this.data.topPercent,
     };
 
     if (this.data.color)
-      this.myStyle['box-shadow'] = `inset 0 0 1em -1px ${this.data.color}`;
-    if (this.hasHover && this.data.pawn) {
-      this.myStyle['outline-color'] = 'var(--white)';
-      this.myStyle['cursor'] = 'pointer';
-    } else if (this.data.pawn) {
-      this.myStyle['outline-color'] = 'var(--primary2)';
+      this.fieldStyle['box-shadow'] = `inset 0 0 1em -1px ${this.data.color}`;
+
+    if (this.data.isDestination) {
+      this.fieldStyle['outline-color'] = 'var(--contrast)';
+    } else if (this.isHoverValid()) {
+      if (this.hasHover && this.data.pawnColor) {
+        this.fieldStyle['outline-color'] = 'var(--white)';
+        this.fieldStyle['cursor'] = 'pointer';
+      } else if (this.data.pawnColor) {
+        this.fieldStyle['outline-color'] = 'var(--primary2)';
+      }
     }
+
+    if (this.data.pawnColor) {
+      this.pawnStyle['background-color'] = this.data.pawnColor;
+    }
+  }
+
+  isHoverValid() {
+    if (
+      this.gameAction === 'move' &&
+      this.whoseAction === this.playerColor &&
+      this.playerColor === this.data.pawnColor
+    )
+      return true;
+    return false;
   }
 
   enterHover() {
     this.hasHover = true;
     this.updateStyle();
+    if (this.hasPawn) {
+      this.onValidHover.emit(this.fieldIndex);
+    }
   }
 
   leaveHover() {
     this.hasHover = false;
     this.updateStyle();
+    if (this.hasPawn) {
+      this.onValidHover.emit(-1);
+    }
   }
 }

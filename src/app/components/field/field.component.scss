@@ -9,3 +9,17 @@
   outline: solid transparent 0.15em;
   transition: outline-color 0.2s;
 }
+
+.pawn {
+  font-size: 0.5vmin;
+  width: 100%;
+  aspect-ratio: 1;
+  border: 2px solid var(--white);
+  border-radius: 50%;
+  background-color: red;
+  box-shadow: inset 1em 1em 2em 0 var(--black);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}

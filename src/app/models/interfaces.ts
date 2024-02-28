@@ -1,7 +1,8 @@
 export interface gameState {
   sessionId: string;
   turn: string;
-  action: string;
+  action: 'dice' | 'move';
+  diceValue?: number;
   pawns: Array<pawn>;
 }
 
@@ -11,8 +12,9 @@ interface pawn {
 }
 
 export interface fieldData {
-  color?: string;
   leftPercent: string;
   topPercent: string;
-  pawn?: string;
+  color?: string;
+  pawnColor?: string;
+  isDestination?: boolean;
 }
