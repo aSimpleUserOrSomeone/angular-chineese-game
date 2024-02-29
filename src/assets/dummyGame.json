@@ -1,146 +1,146 @@
 [
-    {
-        "sessionId": "aaa",
-        "turn": "red",
-        "action": "move",
-        "diceValue": 5,
-        "pawns": [
-            {
-                "pos": 0,
-                "color": "red"
-            },
-            {
-                "pos": 1,
-                "color": "red"
-            },
-            {
-                "pos": 2,
-                "color": "red"
-            },
-            {
-                "pos": 3,
-                "color": "red"
-            },
-            {
-                "pos": 4,
-                "color": "yellow"
-            },
-            {
-                "pos": 5,
-                "color": "yellow"
-            },
-            {
-                "pos": 6,
-                "color": "yellow"
-            },
-            {
-                "pos": 7,
-                "color": "yellow"
-            },
-            {
-                "pos": 8,
-                "color": "blue"
-            },
-            {
-                "pos": 9,
-                "color": "blue"
-            },
-            {
-                "pos": 10,
-                "color": "blue"
-            },
-            {
-                "pos": 11,
-                "color": "blue"
-            },
-            {
-                "pos": 12,
-                "color": "green"
-            },
-            {
-                "pos": 13,
-                "color": "green"
-            },
-            {
-                "pos": 14,
-                "color": "green"
-            },
-            {
-                "pos": 38,
-                "color": "green"
-            }
-        ]
-    },
-    {
-        "sessionId": "aaa",
-        "turn": "red",
-        "action": "dice",
-        "diceValue": 5,
-        "pawns": [
-            {
-                "pos": 0,
-                "color": "red"
-            },
-            {
-                "pos": 1,
-                "color": "red"
-            },
-            {
-                "pos": 2,
-                "color": "red"
-            },
-            {
-                "pos": 3,
-                "color": "red"
-            },
-            {
-                "pos": 4,
-                "color": "yellow"
-            },
-            {
-                "pos": 5,
-                "color": "yellow"
-            },
-            {
-                "pos": 6,
-                "color": "yellow"
-            },
-            {
-                "pos": 7,
-                "color": "yellow"
-            },
-            {
-                "pos": 8,
-                "color": "blue"
-            },
-            {
-                "pos": 9,
-                "color": "blue"
-            },
-            {
-                "pos": 10,
-                "color": "blue"
-            },
-            {
-                "pos": 11,
-                "color": "blue"
-            },
-            {
-                "pos": 12,
-                "color": "green"
-            },
-            {
-                "pos": 13,
-                "color": "green"
-            },
-            {
-                "pos": 14,
-                "color": "green"
-            },
-            {
-                "pos": 18,
-                "color": "green"
-            }
-        ]
-    }
+  {
+    "sessionId": "aaa",
+    "turn": "",
+    "action": "move",
+    "diceValue": 5,
+    "pawns": [
+      {
+        "pos": 0,
+        "color": "red"
+      },
+      {
+        "pos": 1,
+        "color": "red"
+      },
+      {
+        "pos": 39,
+        "color": "red"
+      },
+      {
+        "pos": 38,
+        "color": "red"
+      },
+      {
+        "pos": 9,
+        "color": "yellow"
+      },
+      {
+        "pos": 10,
+        "color": "yellow"
+      },
+      {
+        "pos": 11,
+        "color": "yellow"
+      },
+      {
+        "pos": 8,
+        "color": "yellow"
+      },
+      {
+        "pos": 19,
+        "color": "blue"
+      },
+      {
+        "pos": 20,
+        "color": "blue"
+      },
+      {
+        "pos": 21,
+        "color": "blue"
+      },
+      {
+        "pos": 18,
+        "color": "blue"
+      },
+      {
+        "pos": 29,
+        "color": "green"
+      },
+      {
+        "pos": 30,
+        "color": "green"
+      },
+      {
+        "pos": 31,
+        "color": "green"
+      },
+      {
+        "pos": 28,
+        "color": "green"
+      }
+    ]
+  },
+  {
+    "sessionId": "aaa",
+    "turn": "red",
+    "action": "dice",
+    "diceValue": 5,
+    "pawns": [
+      {
+        "pos": 0,
+        "color": "red"
+      },
+      {
+        "pos": 1,
+        "color": "red"
+      },
+      {
+        "pos": 2,
+        "color": "red"
+      },
+      {
+        "pos": 3,
+        "color": "red"
+      },
+      {
+        "pos": 4,
+        "color": "yellow"
+      },
+      {
+        "pos": 5,
+        "color": "yellow"
+      },
+      {
+        "pos": 6,
+        "color": "yellow"
+      },
+      {
+        "pos": 7,
+        "color": "yellow"
+      },
+      {
+        "pos": 8,
+        "color": "blue"
+      },
+      {
+        "pos": 9,
+        "color": "blue"
+      },
+      {
+        "pos": 10,
+        "color": "blue"
+      },
+      {
+        "pos": 11,
+        "color": "blue"
+      },
+      {
+        "pos": 12,
+        "color": "green"
+      },
+      {
+        "pos": 13,
+        "color": "green"
+      },
+      {
+        "pos": 14,
+        "color": "green"
+      },
+      {
+        "pos": 18,
+        "color": "green"
+      }
+    ]
+  }
 ]

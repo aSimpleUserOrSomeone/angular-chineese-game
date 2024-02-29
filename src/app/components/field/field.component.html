@@ -1,3 +1,8 @@
-<div class="field" [ngStyle]="fieldStyle" (mouseenter)="enterHover()" (mouseleave)="leaveHover()">
-    <div *ngIf="hasPawn" [ngStyle]="pawnStyle" class="pawn"></div>
+<div
+  class="field"
+  [ngStyle]="fieldStyle"
+  (mouseenter)="enterHover()"
+  (mouseleave)="leaveHover()"
+>
+  <div *ngIf="hasPawn" [ngStyle]="pawnStyle" class="pawn"></div>
 </div>

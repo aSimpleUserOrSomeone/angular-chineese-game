@@ -18,3 +18,9 @@ export interface fieldData {
   pawnColor?: string;
   isDestination?: boolean;
 }
+
+export interface fieldHoverEmiterData {
+  id: number;
+  isHoverValid?: boolean;
+  pawnColor?: string;
+}

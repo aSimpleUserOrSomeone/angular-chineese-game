@@ -14,7 +14,7 @@ import {
 //   animate,
 //   transition,
 // } from '@angular/animations';
-import { fieldData } from '../../models/interfaces';
+import { fieldData, fieldHoverEmiterData } from '../../models/interfaces';
 
 interface fieldStyle {
   left: any;
@@ -42,7 +42,7 @@ export class FieldComponent {
   @Input() gameAction?: string;
   @Input() whoseAction?: string;
   @Input() playerColor?: string;
-  @Output() onValidHover = new EventEmitter<number>();
+  @Output() onValidHover = new EventEmitter<fieldHoverEmiterData>();
 
   hasHover: boolean = false;
   hasPawn: boolean = false;
@@ -90,8 +90,8 @@ export class FieldComponent {
   isHoverValid() {
     if (
       this.gameAction === 'move' &&
-      this.whoseAction === this.playerColor &&
-      this.playerColor === this.data.pawnColor
+      this.whoseAction === this.playerColor
+      // this.playerColor === this.data.pawnColor
     )
       return true;
     return false;
@@ -101,7 +101,11 @@ export class FieldComponent {
     this.hasHover = true;
     this.updateStyle();
     if (this.hasPawn) {
-      this.onValidHover.emit(this.fieldIndex);
+      this.onValidHover.emit({
+        id: this.fieldIndex,
+        isHoverValid: this.isHoverValid(),
+        pawnColor: this.data.pawnColor,
+      });
     }
   }
 
@@ -109,7 +113,7 @@ export class FieldComponent {
     this.hasHover = false;
     this.updateStyle();
     if (this.hasPawn) {
-      this.onValidHover.emit(-1);
+      this.onValidHover.emit({ id: -1 });
     }
   }
 }
