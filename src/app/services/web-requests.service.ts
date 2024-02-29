@@ -11,7 +11,9 @@ export class WebRequestsService {
 
   constructor(private http: HttpClient) {}
 
-  getBoardState() {
+  getBoardState(): Observable<gameState[]> {
     return this.http.get<gameState[]>(this._url);
   }
+
+  callServerHandshake() {}
 }

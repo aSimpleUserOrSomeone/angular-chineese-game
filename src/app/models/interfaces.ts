@@ -24,3 +24,15 @@ export interface fieldHoverEmiterData {
   isHoverValid?: boolean;
   pawnColor?: string;
 }
+
+export interface handshakeCall {
+  jwt?: JWT;
+  nick: string;
+}
+
+export interface handshakeReturn {
+  jwt: JWT;
+  message: string;
+}
+
+export interface JWT {}

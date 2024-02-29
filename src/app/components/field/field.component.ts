@@ -72,7 +72,9 @@ export class FieldComponent {
       this.fieldStyle['box-shadow'] = `inset 0 0 1em -1px ${this.data.color}`;
 
     if (this.data.isDestination) {
-      this.fieldStyle['outline-color'] = 'var(--contrast)';
+      if (this.data.pawnColor !== this.playerColor)
+        this.fieldStyle['outline-color'] = 'var(--contrast)';
+      else this.fieldStyle['outline-color'] = 'var(--primary4)';
     } else if (this.isHoverValid()) {
       if (this.hasHover && this.data.pawnColor) {
         this.fieldStyle['outline-color'] = 'var(--white)';
@@ -90,8 +92,8 @@ export class FieldComponent {
   isHoverValid() {
     if (
       this.gameAction === 'move' &&
-      this.whoseAction === this.playerColor
-      // this.playerColor === this.data.pawnColor
+      this.whoseAction === this.playerColor &&
+      this.playerColor === this.data.pawnColor
     )
       return true;
     return false;

@@ -87,15 +87,14 @@ export class AppComponent {
     if (fieldHoverEmiterData.id < 56) {
       switch (fieldHoverEmiterData.pawnColor) {
         case 'red':
-          if (fieldHoverEmiterData.id < 40 && targetDestination > 40)
-            targetDestination += 0;
+          // if (fieldHoverEmiterData.id < 40 && targetDestination > 40)
+          //   targetDestination += 0;
           if (targetDestination > 43) targetDestination = -1;
           break;
         case 'yellow':
           if (fieldHoverEmiterData.id < 10 && targetDestination > 10)
             targetDestination += 34;
           if (targetDestination > 47) targetDestination = -1;
-
           break;
         case 'blue':
           if (fieldHoverEmiterData.id < 20 && targetDestination > 20)
@@ -107,8 +106,29 @@ export class AppComponent {
           if (fieldHoverEmiterData.id < 30 && targetDestination > 30)
             targetDestination += 22;
           if (targetDestination > 55) targetDestination = -1;
-
           break;
+      }
+    } else if (fieldHoverEmiterData.id < 72) {
+      //check starting spots
+      if (this.gameState.diceValue !== 1 && this.gameState.diceValue !== 6)
+        targetDestination = -1;
+      else {
+        switch (fieldHoverEmiterData.pawnColor) {
+          case 'red':
+            if (fieldHoverEmiterData.id >= 56) targetDestination = 0;
+            break;
+          case 'yellow':
+            if (fieldHoverEmiterData.id >= 60) targetDestination = 10;
+            break;
+          case 'blue':
+            if (fieldHoverEmiterData.id >= 64) targetDestination = 20;
+            break;
+          case 'green':
+            if (fieldHoverEmiterData.id >= 68) targetDestination = 30;
+            break;
+          default:
+            break;
+        }
       }
     }
 

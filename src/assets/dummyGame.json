@@ -1,16 +1,16 @@
 [
   {
     "sessionId": "aaa",
-    "turn": "",
+    "turn": "red",
     "action": "move",
-    "diceValue": 5,
+    "diceValue": 1,
     "pawns": [
       {
-        "pos": 0,
+        "pos": 56,
         "color": "red"
       },
       {
-        "pos": 1,
+        "pos": 57,
         "color": "red"
       },
       {
@@ -26,7 +26,7 @@
         "color": "yellow"
       },
       {
-        "pos": 10,
+        "pos": 60,
         "color": "yellow"
       },
       {
@@ -42,7 +42,7 @@
         "color": "blue"
       },
       {
-        "pos": 20,
+        "pos": 64,
         "color": "blue"
       },
       {
@@ -58,7 +58,7 @@
         "color": "green"
       },
       {
-        "pos": 30,
+        "pos": 68,
         "color": "green"
       },
       {
