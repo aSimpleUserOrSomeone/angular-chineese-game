@@ -35,11 +35,14 @@ export class AppComponent {
   passedValue = 'passed text';
   positions: fieldData[] = _positions;
   lastIndexHovered: number = -1;
+  playerColor?: string = 'red';
   gameState?: gameState;
 
   constructor(private _webRequestsService: WebRequestsService) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.joinGame();
+  }
 
   handleDice() {
     this._webRequestsService
@@ -135,6 +138,19 @@ export class AppComponent {
     this.positions = this.positions.map((pos, i) => {
       if (i === targetDestination) return { ...pos, isDestination: true };
       return { ...pos };
+    });
+  }
+
+  joinGame() {
+    const nick = prompt('Podaj swój nick:') || 'Tom';
+    const $handshake = this._webRequestsService.callServerHandshake(
+      nick,
+      '3d3c'
+    );
+    $handshake.subscribe({
+      next: (value) => {
+        console.log(value);
+      },
     });
   }
 }

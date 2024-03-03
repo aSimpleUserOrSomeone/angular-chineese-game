@@ -1,15 +1,9 @@
 <main>
   <div id="playing-board">
     <!-- Here inside components as playing fields -->
-    <app-field
-      *ngFor="let position of positions; index as i"
-      [data]="position"
-      [fieldIndex]="i"
-      (onValidHover)="handleFieldValidHover($event)"
-      [gameAction]="gameState?.action"
-      [playerColor]="'red'"
-      [whoseAction]="gameState?.turn"
-    >
+    <app-field *ngFor="let position of positions; index as i" [data]="position" [fieldIndex]="i"
+      (onValidHover)="handleFieldValidHover($event)" [gameAction]="gameState?.action" [playerColor]="playerColor"
+      [whoseAction]="gameState?.turn">
     </app-field>
     <div id="dice" (click)="handleDice()"></div>
   </div>

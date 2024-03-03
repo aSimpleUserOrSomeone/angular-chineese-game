@@ -26,13 +26,11 @@ export interface fieldHoverEmiterData {
 }
 
 export interface handshakeCall {
-  jwt?: JWT;
+  token?: string;
   nick: string;
 }
 
 export interface handshakeReturn {
-  jwt: JWT;
+  token?: string;
   message: string;
 }
-
-export interface JWT {}

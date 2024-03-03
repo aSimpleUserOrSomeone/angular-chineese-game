@@ -1,6 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { gameState } from '../models/interfaces';
+import {
+  gameState,
+  handshakeCall,
+  handshakeReturn,
+} from '../models/interfaces';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -8,6 +12,7 @@ import { Observable } from 'rxjs';
 })
 export class WebRequestsService {
   private _url: string = '/assets/dummyGame.json';
+  private handshakeUrl: string = '/assets/dummyHandshake.json';
 
   constructor(private http: HttpClient) {}
 
@@ -15,5 +20,10 @@ export class WebRequestsService {
     return this.http.get<gameState[]>(this._url);
   }
 
-  callServerHandshake() {}
+  callServerHandshake(nick: string, token?: string) {
+    const body: handshakeCall = { nick };
+    if (token) body['token'] = token;
+    let req = this.http.post<handshakeReturn>(this.handshakeUrl, body);
+    return req;
+  }
 }
