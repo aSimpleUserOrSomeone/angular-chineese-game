@@ -2,8 +2,7 @@ import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { NgFor } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
-import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { CookieService } from 'ngx-cookie-service';
 
 import { FieldComponent } from './components/field/field.component';
 import { WebRequestsService } from './services/web-requests.service';
@@ -26,7 +25,7 @@ import {
     // BrowserModule,
     // BrowserAnimationsModule,
   ],
-  providers: [WebRequestsService],
+  providers: [WebRequestsService, CookieService],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
@@ -35,32 +34,65 @@ export class AppComponent {
   passedValue = 'passed text';
   positions: fieldData[] = _positions;
   lastIndexHovered: number = -1;
+  userName?: string;
+  userToken?: string;
+  gameId?: number;
   playerColor?: string = 'red';
   gameState?: gameState;
+  isHandshaked: boolean = false;
+  infoText?: string;
 
   constructor(private _webRequestsService: WebRequestsService) {}
 
   ngOnInit() {
-    this.joinGame();
+    this.startGame();
   }
 
-  handleDice() {
+  pollGameState() {
     this._webRequestsService
-      .getBoardState()
-      .subscribe((data) => this.handleGameState(data));
+      .getBoardState(this.gameState!, this.userName!, this.userToken!)
+      .subscribe((data) => {
+        this.handleGameState(data);
+        this.pollGameState();
+      });
   }
 
-  handleGameState(gameState: gameState[]) {
+  handleDice() {}
+
+  handleGameState(gameState: gameState) {
     this.positions = this.positions.map((pos) => ({
       ...pos,
       pawnColor: undefined,
     }));
 
-    let ran = Math.floor(Math.random() * 2);
-    this.gameState = gameState[ran];
-    for (let pawn of gameState[ran].pawns) {
+    this.gameState = gameState;
+
+    console.log(gameState);
+
+    for (let pawn of gameState.pawns) {
       this.positions[pawn.pos].pawnColor = pawn.color;
     }
+
+    if (gameState.red == this.userName) {
+      this.playerColor = 'red';
+    } else if (gameState.yellow == this.userName) {
+      this.playerColor = 'yellow';
+    } else if (gameState.green == this.userName) {
+      this.playerColor = 'green';
+    } else if (gameState.blue == this.userName) {
+      this.playerColor = 'blue';
+    } else {
+      console.error("Couldn't assign player color!");
+    }
+
+    if (this.gameState.action == 'wait') {
+      this.infoText = 'Czekanie na start';
+    } else if (gameState.action == 'dice') {
+      this.infoText = 'Rzut kostką';
+    } else if (gameState.action == 'move') {
+      this.infoText = 'Ruch pionkiem';
+    }
+
     // console.log(this.positions.map((pos) => pos.pawnColor));
   }
 
@@ -141,15 +173,72 @@ export class AppComponent {
     });
   }
 
-  joinGame() {
-    const nick = prompt('Podaj swój nick:') || 'Tom';
+  startGame() {
+    //check if name is stored
+    if (typeof localStorage.getItem('userName') === 'string')
+      this.userName = localStorage.getItem('userName')!;
+    if (typeof localStorage.getItem('userToken') === 'string')
+      this.userToken = localStorage.getItem('userToken')!;
+
+    while (!this.userName) {
+      this.userName = prompt('Podaj nick') || undefined;
+    }
+
     const $handshake = this._webRequestsService.callServerHandshake(
-      nick,
-      '3d3c'
+      this.userName,
+      this.userToken
     );
+
     $handshake.subscribe({
-      next: (value) => {
-        console.log(value);
+      next: (handshake) => {
+        console.log(handshake);
+        if (handshake.status >= 400 && handshake.status < 500) {
+          if (handshake.message) console.log(`API error: ${handshake.message}`);
+          //unsuccessfull handshake -> retry
+          this.userName = undefined;
+          localStorage.setItem('userName', '');
+          return this.startGame();
+        } else if (handshake.status >= 200 && handshake.status < 300) {
+          if (handshake.message)
+            console.log(`API response: ${handshake.message}`);
+          this.isHandshaked = true;
+          this.userToken = handshake.userToken;
+          localStorage.setItem('userToken', this.userToken!);
+          localStorage.setItem('userName', this.userName!);
+
+          this.joinGame(this.userName!, this.userToken!);
+        }
+      },
+    });
+  }
+
+  joinGame(userName: string, userToken: string) {
+    if (typeof localStorage.getItem('gameId') === 'string')
+      this.gameId = parseInt(localStorage.getItem('gameId')!);
+
+    while (!this.gameId) {
+      let p: any = prompt('Podaj id gry (max 4 cyfry)') || undefined;
+      this.gameId = /^[0-9]*$/.test(p) ? parseInt(p) : undefined;
+    }
+
+    const $startGame = this._webRequestsService.joinGame(
+      userName,
+      userToken,
+      this.gameId
+    );
+    $startGame.subscribe({
+      next: (response) => {
+        if (response.status == 400) {
+          console.warn(`API response: ${response.message}`);
+          this.joinGame(userName, userToken);
+        } else if (response.status == 401) {
+          console.warn(`API response: ${response.message}`);
+          this.startGame();
+        } else if (response.status == 200) {
+          console.log(`API response: ${response.message}`);
+          localStorage.setItem('gameId', this.gameId!.toString());
+          this.pollGameState();
+        }
       },
     });
   }

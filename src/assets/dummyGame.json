@@ -1,6 +1,5 @@
 [
   {
-    "sessionId": "aaa",
     "turn": "red",
     "action": "move",
     "diceValue": 1,
@@ -72,7 +71,6 @@
     ]
   },
   {
-    "sessionId": "aaa",
     "turn": "red",
     "action": "dice",
     "diceValue": 5,

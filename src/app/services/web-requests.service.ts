@@ -11,19 +11,35 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class WebRequestsService {
-  private _url: string = '/assets/dummyGame.json';
-  private handshakeUrl: string = '/assets/dummyHandshake.json';
+  private _url: string = '/api/gamestate.php';
+  private handshakeUrl: string = '/api/handshake.php';
+  private joinGameUrl: string = '/api/joingame.php';
 
   constructor(private http: HttpClient) {}
 
-  getBoardState(): Observable<gameState[]> {
-    return this.http.get<gameState[]>(this._url);
+  getBoardState(
+    gameState: gameState,
+    userName: string,
+    userToken: string
+  ): Observable<gameState> {
+    const body: object = { gameState, userName, userToken };
+
+    return this.http.post<gameState>(this._url, body);
   }
 
-  callServerHandshake(nick: string, token?: string) {
-    const body: handshakeCall = { nick };
-    if (token) body['token'] = token;
-    let req = this.http.post<handshakeReturn>(this.handshakeUrl, body);
-    return req;
+  callServerHandshake(userName: string, userToken?: string) {
+    const body: handshakeCall = { userName, userToken };
+    if (userToken) body['userToken'] = userToken;
+    let res = this.http.post<handshakeReturn>(this.handshakeUrl, body);
+    return res;
+  }
+
+  joinGame(userName: string, userToken: string, gameId: number) {
+    const body = { userName, userToken, gameId };
+    let res = this.http.post<{ status: number; message: string }>(
+      this.joinGameUrl,
+      body
+    );
+    return res;
   }
 }

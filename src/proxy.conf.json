@@ -1,0 +1,8 @@
+{
+  "/api": {
+    "target": "http://absal.ct8.pl",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug"
+  }
+}

@@ -1,9 +1,13 @@
 export interface gameState {
   sessionId: string;
   turn: string;
-  action: 'dice' | 'move';
+  action: 'dice' | 'move' | 'wait';
   diceValue?: number;
   pawns: Array<pawn>;
+  red?: string;
+  yellow?: string;
+  green?: string;
+  blue?: string;
 }
 
 interface pawn {
@@ -26,11 +30,12 @@ export interface fieldHoverEmiterData {
 }
 
 export interface handshakeCall {
-  token?: string;
-  nick: string;
+  userToken?: string;
+  userName: string;
 }
 
 export interface handshakeReturn {
-  token?: string;
-  message: string;
+  status: number;
+  message?: string;
+  userToken?: string;
 }

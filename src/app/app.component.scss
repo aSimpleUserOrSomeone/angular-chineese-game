@@ -1,6 +1,6 @@
 #playing-board {
   position: relative;
-  margin: 10vh auto;
+  margin: 2vh auto;
   border: 4px solid var(--black);
   width: 80vmin;
   min-width: 460px;
@@ -23,4 +23,51 @@
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
+}
+
+h2 {
+  color: var(--white);
+  text-align: center;
+  margin: 1em auto;
+}
+
+.info-bar {
+  border: 4px solid var(--black);
+  border-radius: 2em;
+  padding: 0.5em;
+  width: 80vmin;
+  min-width: 460px;
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(32px);
+
+  box-shadow: inset 0 0 10px 0 var(--white);
+
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5em;
+}
+
+.info-bar > * {
+  flex-grow: 1;
+  flex-basis: 1%;
+
+  border: 4px solid var(--black);
+  border-radius: 10em;
+  box-shadow: inset 0 0 10px 0 var(--black);
+
+  padding: 0.2em;
+  text-align: center;
+}
+
+.player-red {
+  background-color: red;
+}
+.player-yellow {
+  background-color: yellow;
+}
+.player-blue {
+  background-color: blue;
+}
+.player-green {
+  background-color: green;
 }
