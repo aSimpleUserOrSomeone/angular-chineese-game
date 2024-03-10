@@ -71,6 +71,9 @@ aside {
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
+
+  background-size: 150%;
+  background-position: center;
 }
 
 h2 {
@@ -128,5 +131,27 @@ h2 {
     .ready-state {
       color: var(--white);
     }
+  }
+}
+
+.mute-btn {
+  cursor: pointer;
+  position: absolute;
+  top: 1em;
+  right: 1em;
+  width: 4em;
+  height: 4em;
+  background-position: 0%;
+  background-size: cover;
+  background-color: var(--white);
+
+  border: 4px solid var(--black);
+  border-radius: 1em;
+  box-shadow: inset 0 0 10px 0 var(--black);
+
+  transition: border-color 0.2s;
+
+  &:hover {
+    border-color: var(--contrast);
   }
 }

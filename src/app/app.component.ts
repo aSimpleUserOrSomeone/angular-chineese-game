@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { NgFor, NgIf } from '@angular/common';
+import { NgFor, NgIf, NgStyle } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { CookieService } from 'ngx-cookie-service';
 
@@ -22,6 +22,7 @@ import {
     FieldComponent,
     NgFor,
     NgIf,
+    NgStyle,
     HttpClientModule,
     // BrowserModule,
     // BrowserAnimationsModule,
@@ -42,7 +43,9 @@ export class AppComponent {
   gameState?: gameState;
   isHandshaked: boolean = false;
   infoText?: string;
-  btnReadyText: string = 'Not Ready';
+  canUseDice: boolean = false;
+  isGameMuted: boolean = true;
+  diceStyle: any = {};
 
   constructor(private _webRequestsService: WebRequestsService) {}
 
@@ -133,10 +136,18 @@ export class AppComponent {
         break;
     }
 
-    if (this.playerReadyState) {
-      this.btnReadyText = 'Ready';
-    } else {
-      this.btnReadyText = 'Not ready';
+    this.canUseDice = false;
+    if (gameState.action == 'wait') {
+      this.diceStyle['background-image'] = `url('../assets/qmark.png')`;
+    } else if (gameState.action == 'dice') {
+      this.diceStyle['background-image'] = `url('../assets/spinner.gif')`;
+      if (this.playerColor == gameState.turn) {
+        this.canUseDice = true;
+      }
+    } else if (gameState.action == 'move') {
+      this.diceStyle[
+        'background-image'
+      ] = `url('../assets/dice${gameState.diceValue}.png')`;
     }
   }
 
@@ -166,31 +177,28 @@ export class AppComponent {
     if (fieldHoverEmiterData.id < 56) {
       switch (fieldHoverEmiterData.pawnColor) {
         case 'red':
-          // if (fieldHoverEmiterData.id < 40 && targetDestination > 40)
+          // if (fieldHoverEmiterData.id < 40 && targetDestination >= 40)
           //   targetDestination += 0;
           if (targetDestination > 43) targetDestination = -1;
           break;
         case 'yellow':
-          if (fieldHoverEmiterData.id < 10 && targetDestination > 10)
+          if (fieldHoverEmiterData.id < 10 && targetDestination >= 10)
             targetDestination += 34;
           if (targetDestination > 47) targetDestination = -1;
           break;
         case 'blue':
-          if (fieldHoverEmiterData.id < 20 && targetDestination > 20)
+          if (fieldHoverEmiterData.id < 20 && targetDestination >= 20)
             targetDestination += 28;
           if (targetDestination > 51) targetDestination = -1;
 
           break;
         case 'green':
-          if (fieldHoverEmiterData.id < 30 && targetDestination > 30)
+          if (fieldHoverEmiterData.id < 30 && targetDestination >= 30)
             targetDestination += 22;
           if (targetDestination > 55) targetDestination = -1;
           break;
       }
-    } else if (
-      fieldHoverEmiterData.id < 72 &&
-      (this.gameState.diceValue === 1 || this.gameState.diceValue === 6)
-    ) {
+    } else if (fieldHoverEmiterData.id < 72) {
       //check starting spots
       if (this.gameState.diceValue !== 1 && this.gameState.diceValue !== 6)
         targetDestination = -1;

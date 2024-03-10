@@ -15,7 +15,8 @@ export class WebRequestsService {
   private handshakeUrl: string = '/api/handshake.php';
   private joinGameUrl: string = '/api/joingame.php';
   private setReadyUrl: string = '/api/setready.php';
-  private lastSetReadyTimestamp: number = 0;
+  private playerActionUrl: string = '/api/playeraction.php';
+  private lastTimeStamp: number = 0;
 
   constructor(private http: HttpClient) {}
 
@@ -55,12 +56,31 @@ export class WebRequestsService {
     userToken: string
   ): Observable<{ status: number; message: string }> | null {
     const timestamp = new Date().getTime();
-    if (timestamp - this.lastSetReadyTimestamp < 500) return null;
-    this.lastSetReadyTimestamp = timestamp;
+    if (timestamp - this.lastTimeStamp < 500) return null;
+    this.lastTimeStamp = timestamp;
 
     const body = { isReady, userName, userToken };
     let res = this.http.post<{ status: number; message: string }>(
       this.setReadyUrl,
+      body
+    );
+    return res;
+  }
+
+  sendAction(
+    userName: string,
+    userToken: string,
+    action: string,
+    position?: number
+  ): Observable<{ status: number; message: string }> | null {
+    const timestamp = new Date().getTime();
+    if (timestamp - this.lastTimeStamp < 500) return null;
+    this.lastTimeStamp = timestamp;
+
+    let body = { userName, userToken, action, position };
+
+    let res = this.http.post<{ status: number; message: string }>(
+      this.playerActionUrl,
       body
     );
     return res;

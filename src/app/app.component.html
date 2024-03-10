@@ -20,12 +20,14 @@
       (onValidHover)="handleFieldValidHover($event)" [gameAction]="gameState?.action" [playerColor]="playerColor"
       [whoseAction]="gameState?.turn">
     </app-field>
-    <div id="dice" (click)="handleDice()"></div>
+    <div id="dice" (click)="handleDice()" [style.cursor]="canUseDice ? 'pointer' : 'initial'" [ngStyle]="diceStyle">
+    </div>
   </div>
 </main>
 <aside *ngIf="this.gameState?.action == 'wait'">
-  <button type="button" (click)="btnReadyClick($event)">{{this.btnReadyText}}</button>
+  <button type="button" (click)="btnReadyClick($event)">{{this.playerReadyState ? 'Ready' : "Not Ready"}}</button>
   <p>ID pokoju: {{this.gameId}}</p>
 </aside>
-
+<button type="button" class="mute-btn" (click)="isGameMuted = !isGameMuted"
+  [ngStyle]="{'background-image': isGameMuted ? 'url(../assets/volume-mute.png)' : 'url(../assets/volume.png)'}"></button>
 <router-outlet />
