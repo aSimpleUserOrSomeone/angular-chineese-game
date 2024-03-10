@@ -1,6 +1,6 @@
 export interface gameState {
   sessionId: string;
-  turn: string;
+  turn: 'red' | 'yellow' | 'blue' | 'green';
   action: 'dice' | 'move' | 'wait';
   diceValue?: number;
   pawns: Array<pawn>;

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { NgFor } from '@angular/common';
+import { NgFor, NgIf } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { CookieService } from 'ngx-cookie-service';
 
@@ -21,6 +21,7 @@ import {
     RouterOutlet,
     FieldComponent,
     NgFor,
+    NgIf,
     HttpClientModule,
     // BrowserModule,
     // BrowserAnimationsModule,
@@ -31,16 +32,17 @@ import {
 })
 export class AppComponent {
   title = 'chineese-game';
-  passedValue = 'passed text';
   positions: fieldData[] = _positions;
   lastIndexHovered: number = -1;
   userName?: string;
   userToken?: string;
   gameId?: number;
-  playerColor?: string = 'red';
+  playerColor?: string;
+  playerReadyState: boolean = false;
   gameState?: gameState;
   isHandshaked: boolean = false;
   infoText?: string;
+  btnReadyText: string = 'Not Ready';
 
   constructor(private _webRequestsService: WebRequestsService) {}
 
@@ -63,12 +65,31 @@ export class AppComponent {
 
   handleDice() {}
 
+  btnReadyClick(event: MouseEvent) {
+    const $response = this._webRequestsService.setReady(
+      !this.playerReadyState,
+      this.userName!,
+      this.userToken!
+    );
+    if ($response == null) {
+      console.log('You are clicking too fast!');
+      return;
+    }
+
+    $response?.subscribe({
+      next: (res) => {
+        console.log(`API response: Status ${res.status} - ${res.message}`);
+      },
+    });
+  }
+
   handleGameState(gameState: gameState) {
     this.positions = this.positions.map((pos) => ({
       ...pos,
       pawnColor: undefined,
     }));
     this.gameState = gameState;
+    console.log(gameState);
 
     for (let pawn of gameState.pawns) {
       this.positions[pawn.pos].pawnColor = pawn.color;
@@ -89,9 +110,33 @@ export class AppComponent {
     if (this.gameState.action == 'wait') {
       this.infoText = 'Czekanie na start';
     } else if (gameState.action == 'dice') {
-      this.infoText = 'Rzut kostką';
+      this.infoText = 'Rzuca kostką ';
     } else if (gameState.action == 'move') {
-      this.infoText = 'Ruch pionkiem';
+      this.infoText = 'Rusza pionkiem ';
+    }
+    if (gameState.action == 'dice' || gameState.action == 'move') {
+      this.infoText += gameState[gameState.turn]?.userName!;
+    }
+
+    switch (this.playerColor) {
+      case 'red':
+        this.playerReadyState = this.gameState?.red?.isReady || false;
+        break;
+      case 'yellow':
+        this.playerReadyState = this.gameState?.yellow?.isReady || false;
+        break;
+      case 'blue':
+        this.playerReadyState = this.gameState?.blue?.isReady || false;
+        break;
+      case 'green':
+        this.playerReadyState = this.gameState?.green?.isReady || false;
+        break;
+    }
+
+    if (this.playerReadyState) {
+      this.btnReadyText = 'Ready';
+    } else {
+      this.btnReadyText = 'Not ready';
     }
   }
 

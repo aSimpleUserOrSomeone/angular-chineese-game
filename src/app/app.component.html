@@ -1,10 +1,18 @@
 <main>
   <h2>{{this.infoText}}</h2>
   <div class="info-bar">
-    <p class="player-red">{{this.gameState?.red?.userName}}</p>
-    <p class="player-yellow">{{this.gameState?.yellow?.userName || "..."}}</p>
-    <p class="player-blue">{{this.gameState?.blue?.userName || "..."}}</p>
-    <p class="player-green">{{this.gameState?.green?.userName || "..."}}</p>
+    <div class="row">
+      <p class="player p-red">{{this.gameState?.red?.userName || "..."}}</p>
+      <p class="player p-yellow">{{this.gameState?.yellow?.userName || "..."}}</p>
+      <p class="player p-blue">{{this.gameState?.blue?.userName || "..."}}</p>
+      <p class="player p-green">{{this.gameState?.green?.userName || "..."}}</p>
+    </div>
+    <div class="row" *ngIf="this.gameState?.action == 'wait'">
+      <p class="ready-state">{{this.gameState?.red?.isReady ? "Ready" : "Not Ready"}}</p>
+      <p class="ready-state">{{this.gameState?.yellow?.isReady ? "Ready" : "Not Ready"}}</p>
+      <p class="ready-state">{{this.gameState?.blue?.isReady ? "Ready" : "Not Ready"}}</p>
+      <p class="ready-state">{{this.gameState?.green?.isReady ? "Ready" : "Not Ready"}}</p>
+    </div>
   </div>
   <div id="playing-board">
     <!-- Here inside components as playing fields -->
@@ -15,5 +23,9 @@
     <div id="dice" (click)="handleDice()"></div>
   </div>
 </main>
+<aside *ngIf="this.gameState?.action == 'wait'">
+  <button type="button" (click)="btnReadyClick($event)">{{this.btnReadyText}}</button>
+  <p>ID pokoju: {{this.gameId}}</p>
+</aside>
 
 <router-outlet />

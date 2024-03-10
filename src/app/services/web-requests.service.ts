@@ -14,6 +14,8 @@ export class WebRequestsService {
   private _url: string = '/api/gamestate.php';
   private handshakeUrl: string = '/api/handshake.php';
   private joinGameUrl: string = '/api/joingame.php';
+  private setReadyUrl: string = '/api/setready.php';
+  private lastSetReadyTimestamp: number = 0;
 
   constructor(private http: HttpClient) {}
 
@@ -42,6 +44,23 @@ export class WebRequestsService {
     const body = { userName, userToken, gameId };
     let res = this.http.post<{ status: number; message: string }>(
       this.joinGameUrl,
+      body
+    );
+    return res;
+  }
+
+  setReady(
+    isReady: boolean,
+    userName: string,
+    userToken: string
+  ): Observable<{ status: number; message: string }> | null {
+    const timestamp = new Date().getTime();
+    if (timestamp - this.lastSetReadyTimestamp < 500) return null;
+    this.lastSetReadyTimestamp = timestamp;
+
+    const body = { isReady, userName, userToken };
+    let res = this.http.post<{ status: number; message: string }>(
+      this.setReadyUrl,
       body
     );
     return res;

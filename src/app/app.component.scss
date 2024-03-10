@@ -1,9 +1,57 @@
+main {
+  width: min(80vmin, 40em);
+  min-width: 460px;
+
+  margin: auto;
+  // float: left;
+}
+
+aside {
+  display: flex;
+  flex-flow: column nowrap;
+  position: absolute;
+  font-size: 1.5rem;
+  right: 0;
+  top: 10rem;
+  padding: 1em;
+  gap: 1em;
+  width: max-content;
+  border-width: 4px 0 4px 4px;
+  border-style: solid;
+  border-color: var(--black);
+  border-radius: min(2em, 2vw) 0 0 min(2em, 2vw);
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(32px);
+  box-shadow: inset 0 0 10px 0 var(--white);
+
+  * {
+    flex-grow: 1;
+    font-size: 1.5rem;
+    color: var(--white);
+  }
+
+  button {
+    padding: 0.2em;
+    border-width: 4px;
+    border-style: solid;
+    border-color: var(--black);
+    border-radius: 8px;
+    background-color: var(--secondary);
+    box-shadow: inset 0 0 0.25em 0 var(--white);
+    cursor: pointer;
+    transition: color 0.25s, box-shadow 0.25s;
+
+    &:hover {
+      color: var(--black);
+      box-shadow: inset 0 0 10em 0 var(--white);
+    }
+  }
+}
+
 #playing-board {
   position: relative;
   margin: 2vh auto;
   border: 4px solid var(--black);
-  width: 80vmin;
-  min-width: 460px;
   aspect-ratio: 1;
   border-radius: min(2em, 2vw);
   background-color: rgba(0, 0, 0, 0.5);
@@ -35,7 +83,6 @@ h2 {
   border: 4px solid var(--black);
   border-radius: 2em;
   padding: 0.5em;
-  width: 80vmin;
   min-width: 460px;
   background-color: rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(32px);
@@ -43,31 +90,43 @@ h2 {
   box-shadow: inset 0 0 10px 0 var(--white);
 
   display: flex;
+  flex-flow: column nowrap;
   justify-content: space-between;
-  gap: 0.5em;
-}
 
-.info-bar > * {
-  flex-grow: 1;
-  flex-basis: 1%;
+  & > .row {
+    display: flex;
+    flex-flow: row nowrap;
+    gap: 0.5em;
 
-  border: 4px solid var(--black);
-  border-radius: 10em;
-  box-shadow: inset 0 0 10px 0 var(--black);
+    & > * {
+      flex-grow: 1;
+      flex-basis: 1%;
+      text-align: center;
+    }
 
-  padding: 0.2em;
-  text-align: center;
-}
+    & > .player {
+      border: 4px solid var(--black);
+      border-radius: 10em;
+      box-shadow: inset 0 0 10px 0 var(--black);
 
-.player-red {
-  background-color: red;
-}
-.player-yellow {
-  background-color: yellow;
-}
-.player-blue {
-  background-color: blue;
-}
-.player-green {
-  background-color: green;
+      padding: 0.2em;
+    }
+
+    .p-red {
+      background-color: red;
+    }
+    .p-yellow {
+      background-color: yellow;
+    }
+    .p-blue {
+      background-color: blue;
+    }
+    .p-green {
+      background-color: green;
+    }
+
+    .ready-state {
+      color: var(--white);
+    }
+  }
 }
