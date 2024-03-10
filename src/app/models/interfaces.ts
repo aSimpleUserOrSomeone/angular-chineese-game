@@ -4,10 +4,15 @@ export interface gameState {
   action: 'dice' | 'move' | 'wait';
   diceValue?: number;
   pawns: Array<pawn>;
-  red?: string;
-  yellow?: string;
-  green?: string;
-  blue?: string;
+  red?: playerGameState;
+  yellow?: playerGameState;
+  green?: playerGameState;
+  blue?: playerGameState;
+}
+
+interface playerGameState {
+  userName: string;
+  isReady?: boolean;
 }
 
 interface pawn {

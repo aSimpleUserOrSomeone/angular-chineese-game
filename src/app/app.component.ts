@@ -51,9 +51,13 @@ export class AppComponent {
   pollGameState() {
     this._webRequestsService
       .getBoardState(this.gameState!, this.userName!, this.userToken!)
-      .subscribe((data) => {
-        this.handleGameState(data);
-        this.pollGameState();
+      .subscribe((res) => {
+        if (res.status >= 200 && res.status < 300) {
+          this.handleGameState(res.gameState!);
+          this.pollGameState();
+        } else if (res.status >= 400 && res.status < 500) {
+          console.log(`API response: status - ${res.status}, ${res.message}`);
+        }
       });
   }
 
@@ -64,22 +68,19 @@ export class AppComponent {
       ...pos,
       pawnColor: undefined,
     }));
-
     this.gameState = gameState;
-
-    console.log(gameState);
 
     for (let pawn of gameState.pawns) {
       this.positions[pawn.pos].pawnColor = pawn.color;
     }
 
-    if (gameState.red == this.userName) {
+    if (gameState.red?.userName == this.userName) {
       this.playerColor = 'red';
-    } else if (gameState.yellow == this.userName) {
+    } else if (gameState.yellow?.userName == this.userName) {
       this.playerColor = 'yellow';
-    } else if (gameState.green == this.userName) {
+    } else if (gameState.green?.userName == this.userName) {
       this.playerColor = 'green';
-    } else if (gameState.blue == this.userName) {
+    } else if (gameState.blue?.userName == this.userName) {
       this.playerColor = 'blue';
     } else {
       console.error("Couldn't assign player color!");
@@ -92,8 +93,6 @@ export class AppComponent {
     } else if (gameState.action == 'move') {
       this.infoText = 'Ruch pionkiem';
     }
-
-    // console.log(this.positions.map((pos) => pos.pawnColor));
   }
 
   handleFieldValidHover(fieldHoverEmiterData: fieldHoverEmiterData) {
@@ -143,7 +142,10 @@ export class AppComponent {
           if (targetDestination > 55) targetDestination = -1;
           break;
       }
-    } else if (fieldHoverEmiterData.id < 72) {
+    } else if (
+      fieldHoverEmiterData.id < 72 &&
+      (this.gameState.diceValue === 1 || this.gameState.diceValue === 6)
+    ) {
       //check starting spots
       if (this.gameState.diceValue !== 1 && this.gameState.diceValue !== 6)
         targetDestination = -1;

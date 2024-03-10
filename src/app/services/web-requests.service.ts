@@ -21,10 +21,14 @@ export class WebRequestsService {
     gameState: gameState,
     userName: string,
     userToken: string
-  ): Observable<gameState> {
+  ): Observable<{ gameState?: gameState; status: number; message?: string }> {
     const body: object = { gameState, userName, userToken };
 
-    return this.http.post<gameState>(this._url, body);
+    return this.http.post<{
+      gameState: gameState;
+      status: number;
+      message?: string;
+    }>(this._url, body);
   }
 
   callServerHandshake(userName: string, userToken?: string) {

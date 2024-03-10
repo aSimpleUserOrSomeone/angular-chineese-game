@@ -1,10 +1,10 @@
 <main>
   <h2>{{this.infoText}}</h2>
   <div class="info-bar">
-    <p class="player-red">{{this.gameState?.red || "..."}}</p>
-    <p class="player-yellow">{{this.gameState?.yellow || "..."}}</p>
-    <p class="player-blue">{{this.gameState?.blue || "..."}}</p>
-    <p class="player-green">{{this.gameState?.green || "..."}}</p>
+    <p class="player-red">{{this.gameState?.red?.userName}}</p>
+    <p class="player-yellow">{{this.gameState?.yellow?.userName || "..."}}</p>
+    <p class="player-blue">{{this.gameState?.blue?.userName || "..."}}</p>
+    <p class="player-green">{{this.gameState?.green?.userName || "..."}}</p>
   </div>
   <div id="playing-board">
     <!-- Here inside components as playing fields -->
