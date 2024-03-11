@@ -16,7 +16,7 @@ interface playerGameState {
   isReady?: boolean;
 }
 
-interface pawn {
+export interface pawn {
   pos: number;
   color: string;
 }

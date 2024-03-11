@@ -12,7 +12,9 @@ import {
   gameState,
   fieldData,
   fieldHoverEmiterData,
+  pawn,
 } from './models/interfaces';
+import { reduce } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -231,61 +233,148 @@ export class AppComponent {
       return;
 
     //math regarding the correct highlight
-    let targetDestination = fieldHoverEmiterData.id + this.gameState.diceValue;
-
-    //check regular playingspot
-    if (fieldHoverEmiterData.id < 56) {
+    let target = fieldHoverEmiterData.id + this.gameState.diceValue;
+    let position = fieldHoverEmiterData.id;
+    let hasMoved = false;
+    if (position < 56) {
       switch (fieldHoverEmiterData.pawnColor) {
         case 'red':
-          // if (fieldHoverEmiterData.id < 40 && targetDestination >= 40)
-          //   targetDestination += 0;
-          if (targetDestination > 43) targetDestination = -1;
-          break;
-        case 'yellow':
-          if (fieldHoverEmiterData.id < 10 && targetDestination >= 10)
-            targetDestination += 34;
-          if (targetDestination > 47) targetDestination = -1;
-          break;
-        case 'blue':
-          if (fieldHoverEmiterData.id < 20 && targetDestination >= 20)
-            targetDestination += 28;
-          if (targetDestination > 51) targetDestination = -1;
+          if (position < 40 && target >= 40) {
+            hasMoved = true;
+            target += 0;
+            target = this.calculateExceedEnd(
+              43,
+              position,
+              target,
+              this.gameState.pawns
+            );
+          } else if (position >= 40) {
+            hasMoved = true;
+            target = this.calculateExceedEnd(
+              43,
+              position,
+              target,
+              this.gameState.pawns
+            );
+          }
 
           break;
+
+        case 'yellow':
+          if (position < 10 && target >= 10) {
+            hasMoved = true;
+            target += 34;
+            target = this.calculateExceedEnd(
+              47,
+              position,
+              target,
+              this.gameState.pawns
+            );
+          } else if (position >= 44) {
+            hasMoved = true;
+            target = this.calculateExceedEnd(
+              47,
+              position,
+              target,
+              this.gameState.pawns
+            );
+            console.log(target);
+          }
+
+          break;
+
+        case 'blue':
+          if (position < 20 && target >= 20) {
+            hasMoved = true;
+            target += 28;
+            target = this.calculateExceedEnd(
+              51,
+              position,
+              target,
+              this.gameState.pawns
+            );
+          } else if (position >= 48) {
+            hasMoved = true;
+            target = this.calculateExceedEnd(
+              51,
+              position,
+              target,
+              this.gameState.pawns
+            );
+          }
+
+          break;
+
         case 'green':
-          if (fieldHoverEmiterData.id < 30 && targetDestination >= 30)
-            targetDestination += 22;
-          if (targetDestination > 55) targetDestination = -1;
+          if (position < 30 && target >= 30) {
+            hasMoved = true;
+            target += 22;
+            target = this.calculateExceedEnd(
+              55,
+              position,
+              target,
+              this.gameState.pawns
+            );
+          } else if (position >= 52) {
+            hasMoved = true;
+            target = this.calculateExceedEnd(
+              55,
+              position,
+              target,
+              this.gameState.pawns
+            );
+          }
+
           break;
       }
-    } else if (fieldHoverEmiterData.id < 72) {
-      //check starting spots
-      if (this.gameState.diceValue !== 1 && this.gameState.diceValue !== 6)
-        targetDestination = -1;
-      else {
-        switch (fieldHoverEmiterData.pawnColor) {
-          case 'red':
-            if (fieldHoverEmiterData.id >= 56) targetDestination = 0;
-            break;
-          case 'yellow':
-            if (fieldHoverEmiterData.id >= 60) targetDestination = 10;
-            break;
-          case 'blue':
-            if (fieldHoverEmiterData.id >= 64) targetDestination = 20;
-            break;
-          case 'green':
-            if (fieldHoverEmiterData.id >= 68) targetDestination = 30;
-            break;
-          default:
-            break;
-        }
+    }
+    if (position < 40 && !hasMoved) {
+      if (target >= 40) target -= 40;
+    } else if (position < 72 && !hasMoved) {
+      switch (fieldHoverEmiterData.pawnColor) {
+        case 'red':
+          target = 0;
+          break;
+        case 'yellow':
+          target = 10;
+          break;
+        case 'blue':
+          target = 20;
+          break;
+        case 'green':
+          target = 0;
+          break;
       }
     }
 
     this.positions = this.positions.map((pos, i) => {
-      if (i === targetDestination) return { ...pos, isDestination: true };
+      if (i === target) return { ...pos, isDestination: true };
       return { ...pos };
     });
+  }
+
+  calculateExceedEnd(
+    endFieldEnd: number,
+    pos: number,
+    target: number,
+    pawns: Array<pawn>
+  ) {
+    if (target > endFieldEnd) target = endFieldEnd;
+
+    while (target > pos) {
+      if (this.getPosPawn(target, pawns) == null) break;
+      target -= 1;
+    }
+
+    if (target < endFieldEnd - 3) target = pos;
+    return target;
+  }
+
+  getPosPawn(pos: number, pawns: Array<pawn>) {
+    for (let pawn of pawns) {
+      if (pawn.pos == pos) return pawn;
+    }
+    return null;
   }
 
   handleFieldValidClick(id: number) {
