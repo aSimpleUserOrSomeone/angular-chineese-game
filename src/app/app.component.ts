@@ -46,11 +46,41 @@ export class AppComponent {
   canUseDice: boolean = false;
   isGameMuted: boolean = true;
   diceStyle: any = {};
+  speechSynthesis?: SpeechSynthesis;
+  voices?: SpeechSynthesisVoice[];
+  previousAction?: string;
+  isPL: boolean = true;
 
   constructor(private _webRequestsService: WebRequestsService) {}
 
   ngOnInit() {
     this.startGame();
+
+    if ('speechSynthesis' in window) {
+      console.log('speechSynthesis in window');
+
+      this.speechSynthesis = window.speechSynthesis;
+      console.log(this.speechSynthesis.speaking);
+
+      this.voices = this.speechSynthesis.getVoices();
+    }
+  }
+
+  speak() {
+    let voiceNumber = 0;
+
+    const message = `${this.gameState?.diceValue}`;
+    let utterance = new SpeechSynthesisUtterance(message);
+    utterance.voice = this.voices![voiceNumber];
+    utterance.pitch = 1.5;
+    utterance.rate = 1.25;
+    utterance.volume = 0.8;
+    if (this.isPL) {
+      utterance.lang = 'pl-PL';
+    } else {
+      utterance.lang = 'de-DE';
+    }
+    this.speechSynthesis!.speak(utterance);
   }
 
   pollGameState() {
@@ -62,6 +92,7 @@ export class AppComponent {
           this.pollGameState();
         } else if (res.status >= 400 && res.status < 500) {
           console.log(`API response: status - ${res.status}, ${res.message}`);
+          this.restart();
         }
       });
   }
@@ -108,21 +139,15 @@ export class AppComponent {
         gameState.green?.userName == this.userName
       )
     ) {
-      localStorage.removeItem('userToken');
-      localStorage.removeItem('userName');
-      localStorage.removeItem('gameId');
-      this.userToken = undefined;
-      this.userName = undefined;
-      this.gameId = undefined;
-      this.gameState = undefined;
-
-      alert('Wyrzucono Cię z gry!');
+      this.restart();
     }
 
     this.positions = this.positions.map((pos) => ({
       ...pos,
       pawnColor: undefined,
     }));
+    this.previousAction = this.gameState?.action;
+
     this.gameState = gameState;
     console.log(gameState);
 
@@ -148,6 +173,9 @@ export class AppComponent {
       this.infoText = 'Rzuca kostką ';
     } else if (gameState.action == 'move') {
       this.infoText = 'Rusza pionkiem ';
+      if (this.previousAction != this.gameState.action && !this.isGameMuted) {
+        this.speak();
+      }
     } else if (gameState.action == 'win') {
       this.gameEnd();
     }
@@ -353,5 +381,18 @@ export class AppComponent {
     this.gameId = undefined;
     this.gameState = undefined;
     this.startGame();
+  }
+
+  restart() {
+    localStorage.removeItem('userToken');
+    localStorage.removeItem('userName');
+    localStorage.removeItem('gameId');
+    this.userToken = undefined;
+    this.userName = undefined;
+    this.gameId = undefined;
+    this.gameState = undefined;
+
+    alert('Wyrzucono Cię z gry!');
+    window.location.reload();
   }
 }

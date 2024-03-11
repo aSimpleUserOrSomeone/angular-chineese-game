@@ -31,4 +31,7 @@
 </aside>
 <button type="button" class="mute-btn" (click)="isGameMuted = !isGameMuted"
   [ngStyle]="{'background-image': isGameMuted ? 'url(../assets/volume-mute.png)' : 'url(../assets/volume.png)'}"></button>
+<button type="button" class="lang-btn" (click)="isPL = !isPL">
+  {{isPL ? 'PL' : 'DE'}}
+</button>
 <router-outlet />
