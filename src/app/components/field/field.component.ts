@@ -42,7 +42,9 @@ export class FieldComponent {
   @Input() gameAction?: string;
   @Input() whoseAction?: string;
   @Input() playerColor?: string;
+  @Input() diceValue?: number;
   @Output() onValidHover = new EventEmitter<fieldHoverEmiterData>();
+  @Output() onValidClick = new EventEmitter<number>();
 
   hasHover: boolean = false;
   hasPawn: boolean = false;
@@ -94,8 +96,13 @@ export class FieldComponent {
       this.gameAction === 'move' &&
       this.whoseAction === this.playerColor &&
       this.playerColor === this.data.pawnColor
-    )
-      return true;
+    ) {
+      if (this.fieldIndex < 56) {
+        return true;
+      } else if (this.diceValue == 1 || this.diceValue == 6) {
+        return true;
+      }
+    }
     return false;
   }
 
@@ -116,6 +123,12 @@ export class FieldComponent {
     this.updateStyle();
     if (this.hasPawn) {
       this.onValidHover.emit({ id: -1 });
+    }
+  }
+
+  handleClick() {
+    if (this.isHoverValid()) {
+      this.onValidClick.emit(this.fieldIndex);
     }
   }
 }

@@ -56,7 +56,7 @@ export class WebRequestsService {
     userToken: string
   ): Observable<{ status: number; message: string }> | null {
     const timestamp = new Date().getTime();
-    if (timestamp - this.lastTimeStamp < 500) return null;
+    if (timestamp - this.lastTimeStamp < 250) return null;
     this.lastTimeStamp = timestamp;
 
     const body = { isReady, userName, userToken };
@@ -74,7 +74,7 @@ export class WebRequestsService {
     position?: number
   ): Observable<{ status: number; message: string }> | null {
     const timestamp = new Date().getTime();
-    if (timestamp - this.lastTimeStamp < 500) return null;
+    if (timestamp - this.lastTimeStamp < 250) return null;
     this.lastTimeStamp = timestamp;
 
     let body = { userName, userToken, action, position };

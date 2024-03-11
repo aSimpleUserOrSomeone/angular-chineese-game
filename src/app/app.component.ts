@@ -66,7 +66,22 @@ export class AppComponent {
       });
   }
 
-  handleDice() {}
+  handleDice() {
+    if (!this.canUseDice || !this.isHandshaked) return;
+    const $response = this._webRequestsService.sendAction(
+      this.userName!,
+      this.userToken!,
+      'dice'
+    );
+
+    if ($response == null) return console.warn('You are clicking too fast!');
+
+    $response.subscribe({
+      next: (res) => {
+        console.log(`API response: Status ${res.status} - ${res.message}`);
+      },
+    });
+  }
 
   btnReadyClick(event: MouseEvent) {
     const $response = this._webRequestsService.setReady(
@@ -74,12 +89,9 @@ export class AppComponent {
       this.userName!,
       this.userToken!
     );
-    if ($response == null) {
-      console.log('You are clicking too fast!');
-      return;
-    }
+    if ($response == null) return console.warn('You are clicking too fast!');
 
-    $response?.subscribe({
+    $response.subscribe({
       next: (res) => {
         console.log(`API response: Status ${res.status} - ${res.message}`);
       },
@@ -87,6 +99,26 @@ export class AppComponent {
   }
 
   handleGameState(gameState: gameState) {
+    //check if still in game
+    if (
+      !(
+        gameState.red?.userName == this.userName ||
+        gameState.yellow?.userName == this.userName ||
+        gameState.blue?.userName == this.userName ||
+        gameState.green?.userName == this.userName
+      )
+    ) {
+      localStorage.removeItem('userToken');
+      localStorage.removeItem('userName');
+      localStorage.removeItem('gameId');
+      this.userToken = undefined;
+      this.userName = undefined;
+      this.gameId = undefined;
+      this.gameState = undefined;
+
+      alert('Wyrzucono Cię z gry!');
+    }
+
     this.positions = this.positions.map((pos) => ({
       ...pos,
       pawnColor: undefined,
@@ -116,6 +148,8 @@ export class AppComponent {
       this.infoText = 'Rzuca kostką ';
     } else if (gameState.action == 'move') {
       this.infoText = 'Rusza pionkiem ';
+    } else if (gameState.action == 'win') {
+      this.gameEnd();
     }
     if (gameState.action == 'dice' || gameState.action == 'move') {
       this.infoText += gameState[gameState.turn]?.userName!;
@@ -137,11 +171,9 @@ export class AppComponent {
     }
 
     this.canUseDice = false;
-    if (gameState.action == 'wait') {
-      this.diceStyle['background-image'] = `url('../assets/qmark.png')`;
-    } else if (gameState.action == 'dice') {
+    if (gameState.action == 'wait' || gameState.action == 'dice') {
       this.diceStyle['background-image'] = `url('../assets/spinner.gif')`;
-      if (this.playerColor == gameState.turn) {
+      if (gameState.action == 'dice' && this.playerColor == gameState.turn) {
         this.canUseDice = true;
       }
     } else if (gameState.action == 'move') {
@@ -228,6 +260,23 @@ export class AppComponent {
     });
   }
 
+  handleFieldValidClick(id: number) {
+    if (!this.isHandshaked) return;
+    const $response = this._webRequestsService.sendAction(
+      this.userName!,
+      this.userToken!,
+      'move',
+      id
+    );
+    if ($response == null) return console.warn('You are clicking too fast');
+
+    $response.subscribe({
+      next: (res) => {
+        console.log(`API response: Status ${res.status} - ${res.message}`);
+      },
+    });
+  }
+
   startGame() {
     //check if name is stored
     if (typeof localStorage.getItem('userName') === 'string')
@@ -296,5 +345,13 @@ export class AppComponent {
         }
       },
     });
+  }
+
+  gameEnd() {
+    alert('Koniec gry!');
+    localStorage.removeItem('gameId');
+    this.gameId = undefined;
+    this.gameState = undefined;
+    this.startGame();
   }
 }

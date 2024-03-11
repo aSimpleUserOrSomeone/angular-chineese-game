@@ -1,13 +1,14 @@
 export interface gameState {
   sessionId: string;
   turn: 'red' | 'yellow' | 'blue' | 'green';
-  action: 'dice' | 'move' | 'wait';
+  action: 'dice' | 'move' | 'wait' | 'win';
   diceValue?: number;
   pawns: Array<pawn>;
   red?: playerGameState;
   yellow?: playerGameState;
   green?: playerGameState;
   blue?: playerGameState;
+  actionTimestamp?: number;
 }
 
 interface playerGameState {
